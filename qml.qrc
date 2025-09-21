@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>leftBtn.png</file>
+        <file>rightBtn.png</file>
+        <file>Com_custom_color.qml</file>
+        <file>colorSpectrum.png</file>
+        <file>BaseGridview.qml</file>
+    </qresource>
+</RCC>
