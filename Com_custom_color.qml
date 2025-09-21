@@ -5,10 +5,10 @@ Item {
     id: root
     width: 1000
     height: 100
-    property int sliderWidth: 650
+    property int sliderWidth: 650 - previewSelectedColor.width
     property int value: 0
-    property int minValue: 0
-    property int maxValue: sliderBG.width - 1
+    property int minValue: previewSelectedColor.width/2
+    property int maxValue: sliderBG.width - 1 - (previewSelectedColor.width/2)
     property int numOfStep: maxValue - minValue
     property int step: 5
     property bool dragActive: false
@@ -37,7 +37,6 @@ Item {
     }
 
     function updateValue(mouseX) {
-        mouseX -= previewSelectedColor.width/2
         var step = sliderWidth/numOfStep
         var temp = Math.round(mouseX/step)
         temp = temp + minValue
@@ -129,14 +128,7 @@ Item {
         color: colorSelected
         anchors.verticalCenter: sliderBG.verticalCenter
         z: 666
-        x: getXPosition()
-        function getXPosition(){
-            if(value == 0) {
-                return sliderBG.x - previewSelectedColor.width/2
-            } else {
-                return sliderBG.x - previewSelectedColor.width/2 + value*(sliderWidth/numOfStep)
-            }
-        }
+        x: sliderBG.x - (width/2)+ value*(sliderWidth/numOfStep)
         radius: 20
         border.color: "gray"
         border.width: 4
@@ -152,7 +144,7 @@ Item {
         id: dragArea
         property bool isMouseDragged: false
         property int pressPositionX: 0
-        width: sliderWidth + previewSelectedColor.width
+        width: sliderBG.width
         height: sliderBG.height
         anchors.centerIn: sliderBG
         property int positionX: 0
@@ -164,7 +156,7 @@ Item {
             }
         }
         onReleased: {
-            updateValue(mouse.x)
+            updateValue(mouse.x - previewSelectedColor.width/2)
             timerDrag.stop()
             dragActive = false
         }
@@ -178,7 +170,7 @@ Item {
                 isMouseDragged = true
             }
             if (dragActive) {
-                positionX=mouse.x
+                positionX=mouse.x - previewSelectedColor.width/2
                 timerDrag.start()
             }
         }
